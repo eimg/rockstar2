@@ -12,9 +12,10 @@ class Add extends React.Component {
             <div>
                 <input type="text" ref={this.input} />
                 <button onClick={() => {
-                    var name = this.input.current.value;
-                    this.props.add(name);
-                }}>Button</button>
+                    this.props.add(
+                        this.input.current.value
+                    );
+                }}>+</button>
             </div>
         )
     }

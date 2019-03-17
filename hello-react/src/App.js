@@ -1,38 +1,34 @@
 import React from 'react';
-import Item from './Item';
+import List from './List';
 import Add from './Add';
 
 class App extends React.Component {
     constructor() {
         super();
-
-        this.state = {
-            data: ['Bob', 'Alice']
-        }
-
+        this.state = { data: ['a', 'b'] }
         this.add = this.add.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
     add(name) {
-        var data = this.state.data;
-        data.push(name);
-
         this.setState({
-            data: data
+            data: [ ...this.state.data, name ]
         });
+    }
+
+    remove(name) {
+        this.setState({
+            data: this.state.data.filter(item => item != name)
+        })
     }
 
     render() {
         return (
             <div>
-                <ul>
-                    {this.state.data.map( item => {
-                        return <Item name={item} />
-                    })}
-                </ul>
+                <List data={this.state.data} remove={this.remove} />
                 <Add add={this.add} />
             </div>
-        );
+        )
     }
 }
 
