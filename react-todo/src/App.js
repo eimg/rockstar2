@@ -64,7 +64,7 @@ class App extends React.Component {
                     return task.status === 0;
                 }).length} />
 
-                <Add />
+                <Add add={this.add} />
 
                 <Todo
                     done={this.done}

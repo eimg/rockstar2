@@ -9,7 +9,7 @@ class Add extends React.Component {
                 <input type="text" ref={this.input} />
                 <button onClick={() => {
                     let subject = this.input.current.value;
-                    this.add(subject);
+                    this.props.add(subject);
                 }}>+</button>
             </div>
         );
