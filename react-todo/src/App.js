@@ -4,6 +4,8 @@ import Todo from './Todo';
 import Done from './Done';
 import Add from './Add';
 
+import Divider from '@material-ui/core/Divider';
+
 class App extends React.Component {
     autoid = 4;
 
@@ -62,29 +64,30 @@ class App extends React.Component {
             <div>
                 <Header count={this.state.tasks.filter(task => {
                     return task.status === 0;
-                }).length} />
+                }).length} clear={this.clear} />
 
-                <Add add={this.add} />
+                <div style={{margin: 10}}>
 
-                <Todo
-                    done={this.done}
-                    remove={this.remove}
-                    tasks={this.state.tasks.filter(task => {
-                        return task.status === 0;
-                    })}
-                />
+                    <Add add={this.add} />
 
-                <hr />
+                    <Todo
+                        done={this.done}
+                        remove={this.remove}
+                        tasks={this.state.tasks.filter(task => {
+                            return task.status === 0;
+                        })}
+                    />
 
-                <Done
-                    undo={this.undo}
-                    remove={this.remove}
-                    tasks={this.state.tasks.filter(task => {
-                        return task.status === 1;
-                    })}
-                />
+                    <Divider />
 
-                <a href="#" onClick={this.clear}>Clear all done</a>
+                    <Done
+                        undo={this.undo}
+                        remove={this.remove}
+                        tasks={this.state.tasks.filter(task => {
+                            return task.status === 1;
+                        })}
+                    />
+                </div>
             </div>
         );
     }

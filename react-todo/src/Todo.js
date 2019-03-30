@@ -1,10 +1,12 @@
 import React from 'react';
 import Item from './Item';
 
+import List from '@material-ui/core/List';
+
 class Todo extends React.Component {
     render() {
         return (
-            <ul>
+            <List>
                 {this.props.tasks.map(task => {
                     return (
                         <Item
@@ -15,7 +17,7 @@ class Todo extends React.Component {
                         />
                     )
                 })}
-            </ul>
+            </List>
         )
     }
 }
