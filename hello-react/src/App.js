@@ -2,27 +2,31 @@ import React from 'react';
 import List from './List';
 import Add from './Add';
 
-class App extends React.Component {
-    state = {
-        data: ['a', 'b']
-    }
+import { createStore } from 'redux';
 
+var store = createStore((state = [], action) => {
+    if(action.type === 'add') state = [ ...state, action.value ];
+    return state;
+});
+
+store.dispatch({ type: 'add', value: 'xxx' });
+store.dispatch({ type: 'add', value: 'zzz' });
+
+class App extends React.Component {
     add = (name) => {
-        this.setState({
-            data: [ ...this.state.data, name ]
-        });
+        store.dispatch({ type: 'add', value: name });
+        this.forceUpdate();
     }
 
     remove = (name) => {
-        this.setState({
-            data: this.state.data.filter(item => item != name)
-        })
+        this.forceUpdate();
     }
 
     render() {
+        var data = store.getState();
         return (
             <div>
-                <List data={this.state.data} remove={this.remove} />
+                <List data={data} remove={this.remove} />
                 <Add add={this.add} />
             </div>
         )
