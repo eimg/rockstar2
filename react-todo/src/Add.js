@@ -16,28 +16,25 @@ const styles = {
     }
 }
 
-class Add extends React.Component {
-    input = React.createRef();
+const Add = props => {
+    let input = React.createRef();
+    return (
+        <div>
+            <Paper elevation={1} style={styles.container}>
+                <InputBase
+                    placeholder="New Task"
+                    style={styles.input}
+                    inputRef={input} />
 
-    render() {
-        return (
-            <div>
-                <Paper elevation={1} style={styles.container}>
-                    <InputBase
-                        placeholder="New Task"
-                        style={styles.input}
-                        inputRef={this.input} />
-
-                    <IconButton onClick={() => {
-                        let subject = this.input.current.value;
-                        this.props.add(subject);
-                    }}>
-                        <PlaylistAddIcon />
-                    </IconButton>
-                </Paper>
-            </div>
-        );
-    }
+                <IconButton onClick={() => {
+                    let subject = input.current.value;
+                    props.add(subject);
+                }}>
+                    <PlaylistAddIcon />
+                </IconButton>
+            </Paper>
+        </div>
+    );
 }
 
 export default Add;

@@ -6,91 +6,45 @@ import Add from './Add';
 
 import Divider from '@material-ui/core/Divider';
 
-class App extends React.Component {
-    autoid = 4;
+import { connect } from 'react-redux';
 
-    state = {
-        tasks: [
-            { id: 1, subject: "Milk", status: 0 },
-            { id: 2, subject: "Bread", status: 1 },
-            { id: 3, subject: "Apple", status: 0 },
-            { id: 4, subject: "Butter", status: 1 },
-        ]
-    }
+const App = props => {
+    return (
+        <div>
+            <Header count={props.count} clear={props.clear} />
+            <div style={{margin: 10}}>
 
-    add = subject => {
-        let newTask = { id: ++this.autoid, subject, status: 0 };
-
-        this.setState({
-            tasks: [
-                ...this.state.tasks,
-                newTask
-            ]
-        })
-    }
-
-    remove = id => {
-        this.setState({
-            tasks: this.state.tasks.filter(item => item.id !== id)
-        });
-    }
-
-    done = id => {
-        this.setState({
-            tasks: this.state.tasks.map(item => {
-                if(item.id === id) item.status = 1;
-                return item;
-            })
-        })
-    }
-
-    undo = id => {
-        this.setState({
-            tasks: this.state.tasks.map(item => {
-                if(item.id === id) item.status = 0;
-                return item;
-            })
-        })
-    }
-
-    clear = id => {
-        this.setState({
-            tasks: this.state.tasks.filter(item => item.status === 0)
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                <Header count={this.state.tasks.filter(task => {
-                    return task.status === 0;
-                }).length} clear={this.clear} />
-
-                <div style={{margin: 10}}>
-
-                    <Add add={this.add} />
-
-                    <Todo
-                        done={this.done}
-                        remove={this.remove}
-                        tasks={this.state.tasks.filter(task => {
-                            return task.status === 0;
-                        })}
-                    />
-
-                    <Divider />
-
-                    <Done
-                        undo={this.undo}
-                        remove={this.remove}
-                        tasks={this.state.tasks.filter(task => {
-                            return task.status === 1;
-                        })}
-                    />
-                </div>
+                <Add add={props.add} />
+                <Todo
+                    done={props.done}
+                    remove={props.remove}
+                    tasks={props.tasks}
+                />
+                <Divider />
+                <Done
+                    undo={props.undo}
+                    remove={props.remove}
+                    tasks={props.doneTasks}
+                />
             </div>
-        );
-    }
+        </div>
+    );
 }
 
-export default App;
+const ReduxApp = connect(state => {
+    return {
+        count: state.filter(item => item.status === 0).length,
+        tasks: state.filter(item => item.status === 0),
+        doneTasks: state.filter(item => item.status === 1)
+    }
+}, dispatch => {
+    return {
+        add: subject => dispatch({ type: 'ADD', subject }),
+        remove: id => dispatch({ type: 'DEL', id }),
+        done: id => dispatch({ type: 'DONE', id }),
+        undo: id => dispatch({ type: 'UNDO', id }),
+        clear: () => dispatch({ type: 'CLEAR' })
+    }
+})(App);
+
+export default ReduxApp;

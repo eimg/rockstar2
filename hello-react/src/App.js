@@ -2,35 +2,28 @@ import React from 'react';
 import List from './List';
 import Add from './Add';
 
-import { createStore } from 'redux';
+import { connect } from 'react-redux';
 
-var store = createStore((state = [], action) => {
-    if(action.type === 'add') state = [ ...state, action.value ];
-    return state;
-});
-
-store.dispatch({ type: 'add', value: 'xxx' });
-store.dispatch({ type: 'add', value: 'zzz' });
-
-class App extends React.Component {
-    add = (name) => {
-        store.dispatch({ type: 'add', value: name });
-        this.forceUpdate();
-    }
-
-    remove = (name) => {
-        this.forceUpdate();
-    }
-
-    render() {
-        var data = store.getState();
-        return (
-            <div>
-                <List data={data} remove={this.remove} />
-                <Add add={this.add} />
-            </div>
-        )
-    }
+const App = props => {
+    return (
+        <div>
+            <List data={props.data} remove={props.remove} />
+            <Add add={props.add} />
+        </div>
+    )
 }
 
-export default App;
+const ReduxApp = connect((state) => {
+    return { data: state }
+}, (dispatch) => {
+    return {
+        add: (name) => {
+            dispatch({ type: 'add', value: name })
+        },
+        remove: (name) => {
+            dispatch({ type: 'remove', value: name })
+        }
+    }
+})(App);
+
+export default ReduxApp;

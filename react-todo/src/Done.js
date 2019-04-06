@@ -4,25 +4,23 @@ import Item from './Item';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-class Done extends React.Component {
-    doneTitle = <ListSubheader>Done</ListSubheader>;
+const Done = props => {
+    let doneTitle = <ListSubheader>Done ({props.tasks.length})</ListSubheader>;
 
-    render() {
-        return (
-            <List subheader={this.doneTitle}>
-                {this.props.tasks.map(task => {
-                    return (
-                        <Item
-                            key={task.id}
-                            task={task}
-                            undo={this.props.undo}
-                            remove={this.props.remove}
-                        />
-                    )
-                })}
-            </List>
-        )
-    }
+    return (
+        <List subheader={doneTitle}>
+            {props.tasks.map(task => {
+                return (
+                    <Item
+                        key={task.id}
+                        task={task}
+                        undo={props.undo}
+                        remove={props.remove}
+                    />
+                )
+            })}
+        </List>
+    )
 }
 
 export default Done;
