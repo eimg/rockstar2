@@ -12,7 +12,7 @@ const Done = props => {
             {props.tasks.map(task => {
                 return (
                     <Item
-                        key={task.id}
+                        key={task._id}
                         task={task}
                         undo={props.undo}
                         remove={props.remove}

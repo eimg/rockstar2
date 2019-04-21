@@ -39,11 +39,47 @@ const ReduxApp = connect(state => {
     }
 }, dispatch => {
     return {
-        add: subject => dispatch({ type: 'ADD', subject }),
-        remove: id => dispatch({ type: 'DEL', id }),
-        done: id => dispatch({ type: 'DONE', id }),
-        undo: id => dispatch({ type: 'UNDO', id }),
-        clear: () => dispatch({ type: 'CLEAR' })
+        add: subject => {
+            fetch('http://localhost:8000/tasks', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify({ subject })
+            }).then(res => res.json()).then(json => {
+                dispatch({ type: 'ADD', task: json });
+            });
+        },
+        remove: _id => {
+            dispatch({ type: 'DEL', _id });
+
+            fetch(`http://localhost:8000/tasks/${_id}`, {
+                method: 'DELETE'
+            });
+        },
+        done: _id => {
+            dispatch({ type: 'DONE', _id });
+
+            fetch(`http://localhost:8000/tasks/${_id}`, {
+                method: 'PATCH',
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify({ status: 1 })
+            });
+        },
+        undo: _id => {
+            dispatch({ type: 'UNDO', _id });
+
+            fetch(`http://localhost:8000/tasks/${_id}`, {
+                method: 'PATCH',
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify({ status: 0 })
+            });
+        },
+        clear: () => {
+            dispatch({ type: 'CLEAR' });
+
+            fetch('http://localhost:8000/tasks', {
+                method: 'DELETE'
+            });
+        }
     }
 })(App);
 

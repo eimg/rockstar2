@@ -6,24 +6,28 @@ import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-var autoID = 0;
-
 var store = createStore((state = [], action) => {
     switch(action.type) {
-        case 'ADD': return [{ id: ++autoID, subject: action.subject, status: 0 }, ...state ];
+        case 'SET':
+            return action.tasks;
+            break;
+        case 'ADD': return [
+                action.task,
+                ...state
+            ];
             break;
         case 'DEL':
-            return state.filter(item => item.id !== action.id);
+            return state.filter(item => item._id !== action._id);
             break;
         case 'DONE':
             return state.map(item => {
-                if(item.id === action.id) item.status = 1;
+                if(item._id === action._id) item.status = 1;
                 return item;
             });
             break;
         case 'UNDO':
             return state.map(item => {
-                if(item.id === action.id) item.status = 0;
+                if(item._id === action._id) item.status = 0;
                 return item;
             });
             break;
@@ -35,12 +39,11 @@ var store = createStore((state = [], action) => {
     }
 });
 
-store.dispatch({ type: 'ADD', subject: 'Milk' });
-store.dispatch({ type: 'ADD', subject: 'Bread' });
-store.dispatch({ type: 'ADD', subject: 'Butter' });
-store.dispatch({ type: 'ADD', subject: 'Egg' });
-store.dispatch({ type: 'DONE', id: 3 });
-store.dispatch({ type: 'DONE', id: 4 });
+fetch('http://localhost:8000/tasks').then(res => {
+    return res.json();
+}).then( json => {
+    store.dispatch({ 'type': 'SET', 'tasks': json });
+});
 
 ReactDOM.render(
     <Provider store={store}>

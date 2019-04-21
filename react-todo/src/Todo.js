@@ -9,7 +9,7 @@ const Todo = props => {
             {props.tasks.map(task => {
                 return (
                     <Item
-                        key={task.id}
+                        key={task._id}
                         task={task}
                         done={props.done}
                         remove={props.remove}

@@ -14,11 +14,11 @@ const Item = props => {
             {
                 props.task.status === 1 ?
                     <Checkbox checked={1} disableRipple onChange={() => {
-                        props.undo(props.task.id)
+                        props.undo(props.task._id)
                     }} />
                 :
                     <Checkbox checked={0} disableRipple onChange={() => {
-                        props.done(props.task.id)
+                        props.done(props.task._id)
                     }} />
             }
 
@@ -26,7 +26,7 @@ const Item = props => {
 
             <ListItemSecondaryAction>
                 <IconButton onClick={() => {
-                    props.remove(props.task.id);
+                    props.remove(props.task._id);
                 }}>
                     <DeleteIcon />
                 </IconButton>
