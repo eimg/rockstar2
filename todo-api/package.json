@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "create-react-app": "^2.1.8",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
-    "mongojs": "^2.6.0"
+    "jsonwebtoken": "^8.5.1",
+    "mongojs": "^2.6.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {},
   "scripts": {

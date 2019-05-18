@@ -1,0 +1,3 @@
+{"_id":{"$oid":"5cbc373209ca2775b93f7c6c"},"subject":"Bread","status":0}
+{"_id":{"$oid":"5cbc39bd09ca2775b93f7c6d"},"subject":"Butter","status":0}
+{"_id":{"$oid":"5cbc39c109ca2775b93f7c6e"},"subject":"Apple","status":1}
